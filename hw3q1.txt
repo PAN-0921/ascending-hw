@@ -1,0 +1,5 @@
+#update permission for a file m1.txt
+cd ~/Documents/tutorial/
+ls -la
+chmod 750 m1.txt
+ls -la
