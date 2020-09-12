@@ -20,7 +20,7 @@ ssh pan@ip-172-31-92-98.ec2.internal #ssh to edge node
 hdfs dfs -ls #list files in HDFS
 ```
 
-(week0201)[https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week02-01.jpg]
+[week0201](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week02-01.jpg)
 
 
 
