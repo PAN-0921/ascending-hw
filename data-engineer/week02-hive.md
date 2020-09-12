@@ -23,6 +23,7 @@ hdfs dfs -ls #list files in HDFS
 ![week0201](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week02-01.jpg)
 
 
+Copy files from Linux File system to HDFS
 
 
-
+![2](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/2.jpg)
