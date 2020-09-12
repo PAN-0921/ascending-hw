@@ -17,7 +17,7 @@ b.left=d
 b.right=e
 
 def postorder(node):
-	if node:
+	if node!=None
 		return postorder(node.left)+postorder(node.right)+[node.val] 
 	else:	
 		return[]
