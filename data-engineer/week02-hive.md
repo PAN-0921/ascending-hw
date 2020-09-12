@@ -98,7 +98,9 @@ select count(*) from pan_db.banklist_managed;
 ## Question 4
 In your database, create a Hive external table using the CSV files. After create the table, run some queries to verify the table is created correctly. 
 ```
-desc formatted <your table>; select * from <your table> limit 5; select count(*) from <your table>;
+desc formatted <your table>;
+select * from <your table> limit 5;
+select count(*) from <your table>;
 drop table <your table>; verify the data folder is not deleted by Hive.
 ```
 ## Solution 4
