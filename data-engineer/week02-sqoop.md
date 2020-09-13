@@ -57,8 +57,8 @@ sqoop import-all-tables \
 --fields-terminated-by '#' \
 --warehouse-dir /user/pan/retail_db/text
 ```
-![12](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/12.jpg)
-![13](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/13.jpg)
+![12](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/12.png)
+![13](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/13.png)
 
 ## Question 5
 Import table order_items to hdfs, in avro format, save in hdfs folder `/user/<your_id>/retail_db/avro`
@@ -79,7 +79,7 @@ sqoop import \
 --table order_items \
 --target-dir /user/pan/retail_db/avro
 ```
-2.run with two map tasks
+2. run with two map tasks
 ```bash
 sqoop import \
 -m 2 \
@@ -91,8 +91,10 @@ sqoop import \
 --table order_items \
 --target-dir /user/pan/retail_db/avro2
 ```
-3. compare the output. List the sqoop behavior difference between  one map task and two map tasks
-output with one map task: only one data file
+3. compare the output. List the sqoop behavior difference between  one map task and two map tasks 
+
+output with one map task: only one data file 
+
 ![14](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/14.jpg)
 
 output with two map tasks: two data files
@@ -100,13 +102,14 @@ output with two map tasks: two data files
 
 
 ## Question 6
-In edge node, in your home folder, Create a folder named “order_items_files” in Linux file system.
+In edge node, in your home folder, create a folder named “order_items_files” in Linux file system.
 
 ## Solution 6
 ```bash
 mkdir order_items_files
 ```
 ![16](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/16.jpg)
+
 ![17](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/17.jpg)
 
 ## Question 7
@@ -118,18 +121,18 @@ order_items.txt
 ```
  
 ## Solution 7
-1.copy order_items table file generated in step 3 from HDFS to Linux file system, name it as order_items.parquet:
+1. copy order_items table file generated in step 3 from HDFS to Linux file system, name it as order_items.parquet:
 ```bash
 hdfs dfs -get /user/pan/retail_db/parquet/order_items/8a3761ec-e097-46fa-a553-2bc0c1133797.parquet
 mv 8a3761ec-e097-46fa-a553-2bc0c1133797.parquet order_items.parquet
 ```
-2.copy order_items table file generated in step 4 from HDFS to Linux file system, name it as order_items.txt:
+2. copy order_items table file generated in step 4 from HDFS to Linux file system, name it as order_items.txt:
 ```bash
 hdfs dfs -get /user/pan/retail_db/text/order_items/part-m-00000
 mv part-m-00000 order_items.txt
 ```
 
-3.copy order_items table file generated in step 5 from HDFS to Linux file system, name it as order_items.avro:
+3. copy order_items table file generated in step 5 from HDFS to Linux file system, name it as order_items.avro:
 ```bash
 hdfs dfs -get /user/pan/retail_db/avro/part-m-00000.avro
 mv part-m-00000.avro order_items.avro
@@ -176,10 +179,7 @@ parquet-tools rowcount order_items.parquet
 ![25](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/25.jpg)
 
 
-```
-parquet-tools head order_items.parquet
-```
-or
+
 ```
 parquet-tools head -n 5 order_items.parquet
 ```
@@ -194,7 +194,8 @@ Examine text file order_items.txt, and calculate rowcount, compare it with the r
 ```bash
 wc -l order_items.txt
 ```
-![27](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/27.jpg)
+![27](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/27.png)
+
 The rowcount in step(8) is the same as  the rowcount in step(9).
 
 
@@ -229,7 +230,7 @@ avro-tools getmeta order_items.avro
 ```bash
 avro-tools tojson order_items.avro | wc -l
 ```
-![30](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/30.jpg)
+![30](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/30.png)
 
 
 
