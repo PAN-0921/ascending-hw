@@ -219,19 +219,12 @@ Are there certain high crime rate locations for certain crime types? (use two co
 
 ## Question 3
 In retail_db, there are 6 tables.  Get yourself familiar with their schemas.
-
 categories
-
 customers
-
 departments
-
 orders
-
 order_items
-
 products
-
 
 ```
 Write queries to answer following questions:
