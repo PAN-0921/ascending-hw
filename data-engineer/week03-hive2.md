@@ -69,7 +69,8 @@ ORDER BY x.year DESC;
 ## Question 2
 `https://data.cityofchicago.org/Public-Safety/Crimes-2020/qzdf-xmn8`
 
-Check hive database named “chicago”, there is one table named: crime_parquet: include data from 2001-present
+Check hive database named “chicago”, there is one table named: 
+crime_parquet: include data from 2001-present
 ```
 1. In your own database, create a partitioned table (partitionedby year) to store data, store in parquet format. Name the table “crime_parquet_16_20”;
 2. Import 2016 to 2020 data into the partitioned table from table chicago.crime_parquet
@@ -176,8 +177,11 @@ where yr>=2016 and yr<=2020;
 ```
 
 Write queries to answer following questions:
+
 Which type of crime is most occurring for each year?  List top 10 crimes for each year. (use union)
+
 Which locations are most likely for a crime to happen?  List top 10 locations.
+
 Are there certain high crime rate locations for certain crime types? (use two columns  to group by )
 
 
@@ -215,12 +219,19 @@ Are there certain high crime rate locations for certain crime types? (use two co
 
 ## Question 3
 In retail_db, there are 6 tables.  Get yourself familiar with their schemas.
+
 categories
+
 customers
+
 departments
+
 orders
+
 order_items
+
 products
+
 
 ```
 Write queries to answer following questions:
