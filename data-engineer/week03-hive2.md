@@ -179,10 +179,98 @@ where yr>=2016 and yr<=2020;
 Write queries to answer following questions:
 
 Which type of crime is most occurring for each year?  List top 10 crimes for each year. (use union)
+```
+SELECT primary_type, yr, number 
+from  
+    (
+    SELECT primary_type, yr, count(*) as number
+    from pan_db.crime_parquet_16_20
+    WHERE yr=2016
+    GROUP BY primary_type, yr
+    ORDER BY number DESC
+    LIMIT 10
+    ) t1
+UNION
+SELECT primary_type, yr, number 
+from  
+    (
+    SELECT primary_type, yr, count(*) as number
+    from pan_db.crime_parquet_16_20
+    WHERE yr=2017
+    GROUP BY primary_type, yr
+    ORDER BY number DESC
+    LIMIT 10
+    ) t2
+UNION
+SELECT primary_type, yr, number 
+from  
+    (
+    SELECT primary_type, yr, count(*) as number
+    from pan_db.crime_parquet_16_20
+    WHERE yr=2018
+    GROUP BY primary_type, yr
+    ORDER BY number DESC
+    LIMIT 10
+    ) t3
+UNION
+SELECT primary_type, yr, number 
+from  
+    (
+    SELECT primary_type, yr, count(*) as number
+    from pan_db.crime_parquet_16_20
+    WHERE yr=2019
+    GROUP BY primary_type, yr
+    ORDER BY number DESC
+    LIMIT 10
+    ) t4
+UNION
+SELECT primary_type, yr, number 
+from  
+    (
+    SELECT primary_type, yr, count(*) as number
+    from pan_db.crime_parquet_16_20
+    WHERE yr=2020
+    GROUP BY primary_type, yr
+    ORDER BY number DESC
+    LIMIT 10
+    ) t5
+ORDER BY yr, number DESC;
+```
+![4](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_9.png)
 
 Which locations are most likely for a crime to happen?  List top 10 locations.
+```
+SELECT district, count(*) as number
+FROM pan_db.crime_parquet_16_20
+GROUP BY district
+ORDER BY number DESC
+LIMIT 10;
+```
+![5](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_10.png)
 
-Are there certain high crime rate locations for certain crime types? (use two columns  to group by )
+Are there certain high crime rate locations for certain crime types? (use two columns to group by)
+```
+select y.district as district, y.primary_type as primary_type, y.number as number, y.rk as rk
+from
+    (
+    select x.district,
+           x.primary_type,
+           x.number,
+           rank() over (partition by district
+                        order by number desc) as rk
+    from
+        (
+        select district, primary_type, count(*) as number
+        from pan_db.crime_parquet_16_20
+        group by district, primary_type
+        ) as x
+    ) as y
+where rk <= 3
+```
+![6](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_11.png)
+![window function](https://www.postgresqltutorial.com/postgresql-window-function/)
+
+
 
 
 
