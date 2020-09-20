@@ -268,6 +268,7 @@ from
 where rk <= 3
 ```
 ![6](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_11.png)
+
 [window function](https://www.postgresqltutorial.com/postgresql-window-function/)
 
 
