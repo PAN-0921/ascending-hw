@@ -14,15 +14,11 @@ Found how many banks were closed each year. The result must show the year and th
 Find top 5 states with most banks. The result must show the state name and number of banks in descending order.
 
 ```
-SELECT *
-FROM
-    (
-    SELECT count(*) as number_of_banks, state
-    FROM banklist
-    GROUP BY state
-    ) as x
-ORDER BY x.number_of_banks DESC
-LIMIT 5;
+SELECT count(*) as number_of_banks, state
+FROM banklist
+GROUP BY state
+ORDER BY number_of_banks DESC
+LIMIT 5
 ```
 
 ![1](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_1.png)
@@ -42,7 +38,8 @@ acquiring_institution STRING,
 `year` INT
 )
 stored as parquet;
-
+```
+```
 INSERT INTO TABLE pan_db.banklist
 SELECT
 bankname,
@@ -50,20 +47,17 @@ city,
 state,
 cert,
 acquiring_institution,
-year(FROM_UNIXTIME(UNIX_TIMESTAMP(closing_date, 'd-MMM-yy'), 'yy-MM-dd'))
+year(FROM_UNIXTIME(UNIX_TIMESTAMP(closing_date, 'd-MMM-yy'), 'yyyy-MM-dd'))
 from roger_db.banklist;
-
-SELECT *
-FROM
-    (
-    SELECT count(*) as `number of closed banks`, year
-    FROM pan_db.banklist
-    GROUP BY year
-    ) as x
-ORDER BY x.year DESC;
+```
+```
+SELECT count(*) as `number of closed banks`, `year`
+FROM pan_db.banklist
+GROUP BY `year`
+ORDER BY `year` DESC;
 ```
 
-![2](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_2.png)
+![2](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_12.png)
 
 
 ## Question 2
