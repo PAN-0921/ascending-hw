@@ -11,9 +11,9 @@ Found how many banks were closed each year. The result must show the year and th
 
 ## Solution 1
 
-Find top 5 states with most banks. The result must show the state name and number of banks in descending order.
+- Find top 5 states with most banks. The result must show the state name and number of banks in descending order.
 
-```
+```sql
 SELECT count(*) as number_of_banks, state
 FROM banklist
 GROUP BY state
@@ -24,11 +24,11 @@ LIMIT 5
 ![1](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_1.png)
 
 
-Found how many banks were closed each year. The result must show the year and the number of banks closed on that year, order by year.
+- Found how many banks were closed each year. The result must show the year and the number of banks closed on that year, order by year.
 
 
 
-```
+```sql
 CREATE TABLE IF NOT EXISTS pan_db.banklist(
 bankname STRING,
 city STRING,
@@ -39,7 +39,7 @@ acquiring_institution STRING,
 )
 stored as parquet;
 ```
-```
+```sql
 INSERT INTO TABLE pan_db.banklist
 SELECT
 bankname,
@@ -50,7 +50,7 @@ acquiring_institution,
 year(FROM_UNIXTIME(UNIX_TIMESTAMP(closing_date, 'd-MMM-yy'), 'yyyy-MM-dd'))
 from roger_db.banklist;
 ```
-```
+```sql
 SELECT count(*) as `number of closed banks`, `year`
 FROM pan_db.banklist
 GROUP BY `year`
@@ -75,9 +75,9 @@ Are there certain high crime rate locations for certain crime types?
 ```
 
 ## Solution 2
-In your own database, create a partitioned table (partitionedby year) to store data, store in parquet format. Name the table “crime_parquet_16_20”;
+- In your own database, create a partitioned table (partitionedby year) to store data, store in parquet format. Name the table “crime_parquet_16_20”;
 
-```
+```sql
 create table if not exists pan_db.crime_parquet_16_20 (
    id bigint,
    case_number string,
@@ -104,10 +104,10 @@ create table if not exists pan_db.crime_parquet_16_20 (
 partitioned by (yr int)
 stored as parquet；
 ```
-Import 2016 to 2020 data into the partitioned table from table chicago.crime_parquet
+- Import 2016 to 2020 data into the partitioned table from table chicago.crime_parquet
 
 Method 1-Static Partitioning
-```
+```sql
 set hive.support.quoted.identifiers=none;
 insert into table pan_db.crime_parquet_16_20 partition (yr=2016)
 select `(yr)?+.+`
@@ -140,7 +140,7 @@ show partitions pan_db.crime_parquet_16_20;
 ![3](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_3.png)
 
 Method 2-Dynamic Partitioning
-```
+```sql
 set hive.exec.dynamic.partition=true;
 set hive.exec.dynamic.partition.mode=nonstrict;
 
@@ -170,10 +170,10 @@ from chicago.crime_parquet
 where yr>=2016 and yr<=2020;
 ```
 
-Write queries to answer following questions:
+- Write queries to answer following questions:
 
-Which type of crime is most occurring for each year?  List top 10 crimes for each year. (use union)
-```
+- Which type of crime is most occurring for each year?  List top 10 crimes for each year. (use union)
+```sql
 SELECT primary_type, yr, number 
 from  
     (
@@ -232,8 +232,8 @@ ORDER BY yr, number DESC;
 ```
 ![4](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_9.png)
 
-Which locations are most likely for a crime to happen?  List top 10 locations.
-```
+- Which locations are most likely for a crime to happen?  List top 10 locations.
+```sql
 SELECT district, count(*) as number
 FROM pan_db.crime_parquet_16_20
 GROUP BY district
@@ -242,8 +242,8 @@ LIMIT 10;
 ```
 ![5](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_10.png)
 
-Are there certain high crime rate locations for certain crime types? (use two columns to group by)
-```
+- Are there certain high crime rate locations for certain crime types? (use two columns to group by)
+```sql
 select y.district as district, y.primary_type as primary_type, y.number as number, y.rk as rk
 from
     (
@@ -320,7 +320,7 @@ Write queries to answer following questions:
 
 
 ## Solution 3
-```
+```sql
 DESCRIBE retail_db.categories;
 DESCRIBE retail_db.customers;
 DESCRIBE retail_db.departments;
@@ -330,8 +330,8 @@ DESCRIBE retail_db.products;
 ```
 
 
-List all orders with total order_items = 5.
-```
+- List all orders with total order_items = 5.
+```sql
 SELECT order_item_order_id, sum(order_item_quantity) as `total order_items`
 from retail_db.order_items
 GROUP BY order_item_order_id
@@ -340,9 +340,9 @@ HAVING `total order_items` = 5;
 ![4](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_4.png)
 
 
-List customer_id, order_id, order item_count with total order_items = 5
+- List customer_id, order_id, order item_count with total order_items = 5
 
-```
+```sql
 SELECT customer_id, order_id, x.`total order_items`
 from orders
 join
@@ -360,9 +360,9 @@ on customers.customer_id=orders.order_customer_id
 ![5](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_5.png)
 
 
-List customer_fname，customer_id, order_id, order item_count with total order_items = 5 (join orders, order_items, customers table)
+- List customer_fname，customer_id, order_id, order item_count with total order_items = 5 (join orders, order_items, customers table)
 
-```
+```sql
 SELECT customer_fname, customer_id, order_id, x.`total order_items`
 from orders
 join
@@ -379,8 +379,8 @@ on customers.customer_id=orders.order_customer_id
 ```
 ![6](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_6.png)
 
-List top 10 most popular product categories. (join products, categories, order_items table)
-```
+- List top 10 most popular product categories. (join products, categories, order_items table)
+```sql
 SELECT new.product_category_id as product_category_id, new.category_name as category_name, sum(new.id_total) as category_total
 from
     (
@@ -403,8 +403,8 @@ limit 10;
 ![7](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_7.png)
 
 
-List top 10 revenue generating products. (join products, orders, order_items table)
-```
+- List top 10 revenue generating products. (join products, orders, order_items table)
+```sql
 SELECT DISTINCT i.id_subtotal, p.product_name
 from 
     (
