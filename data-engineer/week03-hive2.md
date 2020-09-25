@@ -405,41 +405,15 @@ limit 10;
 
 - List top 10 revenue generating products. (join products, orders, order_items table)
 ```sql
-SELECT DISTINCT i.id_subtotal, p.product_name
-from 
-    (
-    select i1.order_item_order_id as order_item_order_id, i1.order_item_product_id as order_item_product_id, i2.id_subtotal as id_subtotal
-    from
-        (
-        select order_item_order_id, order_item_product_id
-        from order_items
-        ) i1
-    left join
-        (
-        select order_item_product_id, sum(order_item_subtotal) as id_subtotal
-        from order_items
-        GROUP BY order_item_product_id
-        ) i2
-    on i1.order_item_product_id = i2.order_item_product_id
-    ) i
-join
-    (
-    select order_id
-    from orders
-    WHERE order_status='COMPLETE'
-    )
-as o
-on i.order_item_order_id = o.order_id
-join 
-    (
-    SELECT product_id, product_name
-    FROM products
-    )as p
-on i.order_item_product_id=p.product_id
-ORDER BY i.id_subtotal DESC
-limit 10;
+SELECT product_name, sum(order_item_subtotal) as revenue
+FROM orders
+JOIN order_items ON orders.order_id = order_items.order_item_order_id
+JOIN products ON order_items.order_item_product_id = products.product_id
+GROUP BY product_name
+ORDER BY revenue DESC
+LIMIT 10;
 ```
-![8](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_8.png)
+![8](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_13.png)
 
 
 
