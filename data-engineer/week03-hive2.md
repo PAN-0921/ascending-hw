@@ -381,26 +381,17 @@ on customers.customer_id=orders.order_customer_id
 
 - List top 10 most popular product categories. (join products, categories, order_items table)
 ```sql
-SELECT new.product_category_id as product_category_id, new.category_name as category_name, sum(new.id_total) as category_total
-from
-    (
-    SELECT p.product_category_id as product_category_id, c.category_name as category_name, o.id_total as id_total
-    from products as p
-    join categories as c
-    on p.product_category_id=c.category_id
-    join
-        (
-        SELECT order_item_product_id, sum(order_item_quantity) as id_total
-        from order_items
-        GROUP BY order_item_product_id
-        ) as o
-    on o.order_item_product_id=p.product_id
-    ) as new
-GROUP BY product_category_id, category_name
+select c.category_name as category_name, sum(o.order_item_quantity) as category_total
+from products as p
+join categories as c
+on p.product_category_id=c.category_id
+join order_items as o
+on o.order_item_product_id=p.product_id
+GROUP BY category_name
 ORDER BY category_total DESC
 limit 10;
 ```
-![7](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_7.png)
+![7](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_14.png)
 
 
 - List top 10 revenue generating products. (join products, orders, order_items table)
