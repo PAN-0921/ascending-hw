@@ -68,7 +68,7 @@ group by substr(closing_date,-2,2)
 ORDER BY yr;
 ```
 ![17](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_17.png)
-[substr](https://www.w3schools.com/sql/func_mysql_substr.as)
+
 
 
 
