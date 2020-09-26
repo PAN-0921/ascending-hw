@@ -21,13 +21,13 @@ ORDER BY number_of_banks DESC
 LIMIT 5
 ```
 
-![1](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_1.png)
+![1](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_15.png)
 
 
 - Found how many banks were closed each year. The result must show the year and the number of banks closed on that year, order by year.
 
 
-
+Method 1
 ```sql
 CREATE TABLE IF NOT EXISTS pan_db.banklist(
 bankname STRING,
@@ -58,6 +58,21 @@ ORDER BY `year` DESC;
 ```
 
 ![2](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_12.png)
+
+
+Method 2
+```sql
+SELECT substr(closing_date,-2,2) as yr, count(*) as count
+from roger_db.banklist
+group by substr(closing_date,-2,2)
+ORDER BY yr;
+```
+![17](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_17.png)
+[substr](https://www.w3schools.com/sql/func_mysql_substr.as)
+
+
+
+
 
 
 ## Question 2
