@@ -1,11 +1,19 @@
 ### Install dependency
-### pre-requisite: install pipenv
+##### pre-requisite: install pipenv
+```
 brew install pipenv
-### dependency
+```
+#### dependency
+```
 source virtual-local
 pipenv install
-### activate
+```
+#### activate
+```
 pipenv shell
+```
 ### Local Dev Environment
-### run map reduce example
+#### run map reduce example
+```
 python -m demo.mapre.reduce_service
+```
