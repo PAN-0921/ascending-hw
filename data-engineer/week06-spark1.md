@@ -6,17 +6,20 @@ In HDFS/data/spark/employee, there are 4 files:
 - dept-with-header.txt
 - emp.txt
 - emp-with-header.txt
+
 give employee and dept. information.
 ![99](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/employee_dataset.png)
 
 Answer following questions by:
+
 (1) Spark SQL
+
 (2) Spark DataFrame API
 
 
 ## Question 1
 ```
-list total salary for each dept.
+List total salary for each dept.
 ```
 
 ## Solution 1
@@ -86,7 +89,7 @@ spark.sql("select DEPT_NAME,sum(SAL) as total_salary from employee_table group b
 
 ## Question 2
 ```
-list total number of employee and average salary for each dept.
+List total number of employee and average salary for each dept.
 ```
 
 ## Solution 2
@@ -109,7 +112,7 @@ spark.sql("select DEPT_NAME,avg(SAL) as avg_salary from employee_table group by 
 
 ## Question 3
 ```
-list the first hired employee's name for each dept.
+List the first hired employee's name for each dept.
 ```
 
 
@@ -133,7 +136,7 @@ spark.sql("select s.NAME, s.HIREDATE, s.DEPT_NAME from (select employee_table.NA
 
 ## Question 4
 ```
-list total employee salary for each city.
+List total employee salary for each city.
 ```
 
 
@@ -156,7 +159,7 @@ spark.sql("select sum(SAL), LOC from employee_table group by LOC").show(false)
 
 ## Question 5
 ```
-list employee's name and salary whose salary is higher than their manager.
+List employee's name and salary whose salary is higher than their manager.
 ```
 
 
@@ -184,7 +187,7 @@ spark.sql("select NAME, SAL from employee_selftable where MGR_SAL<SAL").show(fal
 
 ## Question 6
 ```
-list employee's name and salary whose salary is higher than average salary of whole company.
+List employee's name and salary whose salary is higher than average salary of whole company.
 ```
 
 
@@ -219,7 +222,7 @@ where SAL>2077.0833333333335
 
 ## Question 7
 ```
-list employee's name and dept name whose name start with "J".
+List employee's name and dept name whose name start with "J".
 ```
 
 
@@ -246,7 +249,7 @@ where NAME LIKE "J%"
 
 ## Question 8
 ```
-list 3 employee's name and salary with highest salary.
+List 3 employee's name and salary with highest salary.
 ```
 
 
@@ -272,7 +275,7 @@ limit 3
 
 ## Question 9
 ```
-sort employee by total income (salary+commission), list name and total income.
+Sort employee by total income (salary+commission), list name and total income.
 ```
 
 
