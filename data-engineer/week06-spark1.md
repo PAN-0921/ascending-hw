@@ -179,6 +179,14 @@ spark.catalog.listTables.show(false)
 spark.sql("select * from employee_selftable").show
 spark.sql("select NAME, SAL from employee_selftable where MGR_SAL<SAL").show(false)
 ```
+or
+```
+spark.sql("""
+select e1.NAME, e1.SAL
+from employee_table e1 INNER JOIN employee_table e2 on e1.MGR==e2.EMPNO
+where e1.SAL>e2.SAL
+""").show(false)
+```
 ![5](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/Q5.png)
 
 
@@ -209,6 +217,14 @@ spark.sql("""
 select NAME, SAL
 from employee_table
 where SAL>2077.0833333333335
+""").show(false)
+```
+or
+```
+spark.sql("""
+select NAME, SAL
+from employee_table
+where SAL>(select AVG(SAL) from employee_table)
 """).show(false)
 ```
 ![6](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/Q6.png)
