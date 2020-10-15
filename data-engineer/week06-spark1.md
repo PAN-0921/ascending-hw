@@ -208,7 +208,12 @@ val AVG_SAL=employee_df.select(avg("SAL")).collect()(0).getDouble(0)//cal the av
 val employee_avg_df =employee_df.withColumn("AVG_SAL", rand() * 0 +AVG_SAL)//when adding a new column, set the original value as 0, and then add the avg value
 employee_avg_df.select("NAME","SAL").where(col("AVG_SAL")<col("SAL")).show
 ```
-
+or
+```
+val w1=Window.partitionBy()
+val employee_avg_df=employee_df.withColumn("AVG_SAL", avg(col("SAL")).over(w1)).select("NAME","SAL").where(col("AVG_SAL")<col("SAL"))
+employee_avg_df.show(false)
+```
 
 Method 2 - Spark SQL
 ```
@@ -225,6 +230,17 @@ spark.sql("""
 select NAME, SAL
 from employee_table
 where SAL>(select AVG(SAL) from employee_table)
+""").show(false)
+```
+or
+```
+spark.sql("""
+select NAME, SAL
+from(
+select NAME, SAL, AVG(SAL) OVER () AS AVG_SAL
+from employee_table
+)
+where SAL > AVG_SAL
 """).show(false)
 ```
 ![6](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/Q6.png)
