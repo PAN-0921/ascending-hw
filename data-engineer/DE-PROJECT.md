@@ -51,13 +51,20 @@ Write Spark Streaming jobs to process data from Kafka.
 2. Save events in HDFS in parquet format with schema. Use "kafka" source and "file" sink. Set outputMode to "append".
 ```
 ```
-3. Show how many events are received, display in a 2-minute tumbling window. Show result at 1-minute interval. Use "kafka" source and "console" sink. Set outputMode to "complete".
+3. Show how many events are received, display in a 2-minute tumbling window. 
+Show result at 1-minute interval. 
+Use "kafka" source and "console" sink. 
+Set outputMode to "complete".
 ```
 ```
-4. Show how many events are received for each country, display it in a slidingwindow (set windowDuration to 3 minutes and slideDuration to 1 minutes). Show result at 1-minute interval. Use "kafka" source and "console" sink. Set outputMode to "complete".
+4. Show how many events are received for each country, display it in a slidingwindow (set windowDuration to 3 minutes and slideDuration to 1 minutes). 
+Show result at 1-minute interval. Use "kafka" source and "console" sink.
+Set outputMode to "complete".
 ```
 ```
-5. Use impala to create a KUDU table. Do dataframe transformation to extract information and write to the KUDU table. Use "kafka" source and "kudu" sink.
+5. Use impala to create a KUDU table. 
+Do dataframe transformation to extract information and write to the KUDU table. 
+Use "kafka" source and "kudu" sink.
 create table if not exists rsvp_db.rsvp_kudu_<your-id>
 (
 	rsvp_id         bigint primary key,
