@@ -215,6 +215,10 @@ or
 val order_items_df_sum=order_items_df.groupBy("order_item_order_id").agg(sum("order_item_quantity").as("total")).filter("total=5").orderBy("order_item_order_id")
 order_items_df_sum.show
 ```
+or
+```
+order_items_df.groupBy("order_item_order_id").sum("order_item_quantity").filter("sum(order_item_quantity)=5").show
+```
 ![6](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/W6_Q3_1.png)
 
 
