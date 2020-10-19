@@ -19,6 +19,14 @@ Create a kafka topic named "rsvp_your_id" with 2 partitions and 2 replications.
 
 ## Solution 
 
+```
+ssh pan@54.86.193.122 
+ssh pan@ip-172-31-92-98.ec2.internal
+kafka-topics --bootstrap-server ip-172-31-94-165.ec2.internal:9092 --create --topic rsvp_pan --replication-factor 2 --partitions 2
+kafka-topics --bootstrap-server ip-172-31-94-165.ec2.internal:9092 --list
+kafka-topics --bootstrap-server ip-172-31-94-165.ec2.internal:9092 --describe --topic rsvp_pan
+```
+![1](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/W6_Q1_1.png)
 
 
 
@@ -33,10 +41,23 @@ https://stream.meetup.com/2/rsvps
 Hint:
 The easiest way is to use kafka-console-producer
 Bonus:
-Write a Kafka producerand a Kafka consumer using Scala, or Java, or Python to produce/consumeevents to/from the Kafka topic.
+Write a Kafka producer and a Kafka consumer using Scala, or Java, or Python to produce/consume events to/from the Kafka topic.
 ```
 
 ## Solution 
+use kafka-console-producer
+```
+curl https://stream.meetup.com/2/rsvps | kafka-console-producer --broker-list ip-172-31-94-165.ec2.internal:9092,ip-172-31-91-232.ec2.internal:9092,ip-172-31-89-11.ec2.internal:9092 --topic rsvp_pan 
+```
+
+use kafka-console-consumer to verify it
+```
+kafka-console-consumer --bootstrap-server ip-172-31-89-11.ec2.internal:9092 --topic rsvp_pan --group group-pan
+```
+
+
+
+
 
 
 ## Write 5 Spark Structured Streaming Job
