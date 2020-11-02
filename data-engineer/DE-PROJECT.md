@@ -65,8 +65,8 @@ Write Spark Streaming jobs to process data from Kafka.
 ```
 ```
 1. Save events in HDFS in text(json) format. 
-Use "kafka" source and "file" sink. 
-Set outputMode to "append".
+   Use "kafka" source and "file" sink. 
+   Set outputMode to "append".
 ```
 
 ```
