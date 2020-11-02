@@ -64,7 +64,9 @@ kafka-console-consumer --bootstrap-server ip-172-31-89-11.ec2.internal:9092 --to
 Write Spark Streaming jobs to process data from Kafka.
 ```
 ```
-1. Save events in HDFS in text(json) format. Use "kafka" source and "file" sink. Set outputMode to "append".
+1. Save events in HDFS in text(json) format. 
+Use "kafka" source and "file" sink. 
+Set outputMode to "append".
 ```
 
 ```
