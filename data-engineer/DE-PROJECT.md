@@ -138,7 +138,7 @@ Display in a 2-minute tumbling window
 ```
 df8.groupBy(window(col("timestamp"),"2 minutes")).count().orderBy("window").writeStream.trigger(Trigger.ProcessingTime("60 seconds")).queryName("df8").format("console").outputMode("complete").option("truncate", "false").start()
 ```
-![1](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/W6_Q1_1.png)
+![1](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/tumbling_window.png)
 
 
 
@@ -172,7 +172,7 @@ df12.printSchema()
 ```
 df12.groupBy(window(col("timestamp"),"3 minutes","1 minutes"),col("group.group_country")).count().orderBy("window").writeStream.queryName("df12").trigger(Trigger.ProcessingTime("60 seconds")).format("console").outputMode("complete").option("truncate", "false").start()
 ```
-![1](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/W6_Q1_1.png)
+![2](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/sliding_window.png)
 
 
 ```
