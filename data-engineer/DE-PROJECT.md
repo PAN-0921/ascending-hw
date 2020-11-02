@@ -74,7 +74,12 @@ spark-shell
 spark.conf.set("spark.sql.shuffle.partitions",2)
 ```
 ```
-val df1=spark.readStream.format("kafka").option("kafka.bootstrap.servers","ip-172-31-94-165.ec2.internal:9092").option("subscribe","rsvp_pan").option("startingOffsets","earliest").option("failOnDataLoss","false").load()
+val df1=spark.readStream
+.format("kafka")
+.option("kafka.bootstrap.servers","ip-172-31-94-165.ec2.internal:9092")
+.option("subscribe","rsvp_pan")
+.option("startingOffsets","earliest")
+.option("failOnDataLoss","false").load()
 df1.isStreaming
 ```
 ```
