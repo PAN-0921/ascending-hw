@@ -93,26 +93,46 @@ df3.writeStream.format("console").start()
 ```
 ```
 import org.apache.spark.sql.streaming._
-df3.writeStream.trigger(Trigger.ProcessingTime("60 seconds")).format("json").option("path","/user/pan/DE_project/json").option("checkpointLocation","/user/pan/DE_project/json/checkpoint").outputMode("append").start
+df3.writeStream
+.trigger(Trigger.ProcessingTime("60 seconds"))
+.format("json")
+.option("path","/user/pan/DE_project/json")
+.option("checkpointLocation","/user/pan/DE_project/json/checkpoint")
+.outputMode("append")
+.start
 ```
 
 
 ```
-2. Save events in HDFS in parquet format with schema. Use "kafka" source and "file" sink. Set outputMode to "append".
+2. Save events in HDFS in parquet format with schema. 
+   Use "kafka" source and "file" sink. 
+   Set outputMode to "append".
 ```
 
 Create test.json with one record of https://stream.meetup.com/2/rsvps
 ```
-val test=spark.read.format("json").option("inferSchema",true).load("/user/pan/DE_project/test.json")
+val test=spark.read
+.format("json")
+.option("inferSchema",true)
+.load("/user/pan/DE_project/test.json")
 test.printSchema
 ```
 Methond 1 - read from static data
 ```
-val df4=spark.readStream.schema(test.schema).option("maxFilesPerTrigger",2).json("/user/pan/DE_project/json/*.json")
+val df4=spark.readStream
+.schema(test.schema)
+.option("maxFilesPerTrigger",2)
+.json("/user/pan/DE_project/json/*.json")
 df4.printSchema()
 df4.isStreaming
 import org.apache.spark.sql.streaming.Trigger
-df4.writeStream.trigger(Trigger.ProcessingTime("60 seconds")).format("parquet").option("path","/user/pan/DE_project/parquet").option("checkpointLocation","/user/pan/DE_project/parquet/checkpoint").outputMode("append").start
+df4.writeStream
+.trigger(Trigger.ProcessingTime("60 seconds"))
+.format("parquet")
+.option("path","/user/pan/DE_project/parquet")
+.option("checkpointLocation","/user/pan/DE_project/parquet/checkpoint")
+.outputMode("append")
+.start
 ```
 Method 2 - read from kafka source
 ```
@@ -122,19 +142,26 @@ df5.isStreaming
 val df6=df5.select(col("data.*"))
 df6.printSchema()
 import org.apache.spark.sql.streaming.Trigger
-df6.writeStream.trigger(Trigger.ProcessingTime("60 seconds")).format("parquet").option("path","/user/pan/DE_project/parquet2").option("checkpointLocation","/user/pan/DE_project/parquet2/checkpoint").outputMode("append").start
+df6.writeStream
+.trigger(Trigger.ProcessingTime("60 seconds"))
+.format("parquet")
+.option("path","/user/pan/DE_project/parquet2")
+.option("checkpointLocation","/user/pan/DE_project/parquet2/checkpoint")
+.outputMode("append")
+.start
 df6.writeStream.format("console").start
 ```
 [from_json example1](https://sparkbyexamples.com/spark/spark-parse-json-from-text-file-string/)
+
 [from_json example2](https://sparkbyexamples.com/spark/spark-streaming-with-kafka/)
 
 
 
 ```
 3. Show how many events are received, display in a 2-minute tumbling window. 
-Show result at 1-minute interval. 
-Use "kafka" source and "console" sink. 
-Set outputMode to "complete".
+   Show result at 1-minute interval. 
+   Use "kafka" source and "console" sink. 
+   Set outputMode to "complete".
 ```
 ```
 df1.printSchema
@@ -144,7 +171,16 @@ df8.writeStream.format("console").option("truncate","false").start
 ```
 Display in a 2-minute tumbling window
 ```
-df8.groupBy(window(col("timestamp"),"2 minutes")).count().orderBy("window").writeStream.trigger(Trigger.ProcessingTime("60 seconds")).queryName("df8").format("console").outputMode("complete").option("truncate", "false").start()
+df8.groupBy(window(col("timestamp"),"2 minutes"))
+.count()
+.orderBy("window")
+.writeStream
+.trigger(Trigger.ProcessingTime("60 seconds"))
+.queryName("df8")
+.format("console")
+.outputMode("complete")
+.option("truncate", "false")
+.start()
 ```
 ![1](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/tumbling_window.png)
 
@@ -155,9 +191,11 @@ df8.groupBy(window(col("timestamp"),"2 minutes")).count().orderBy("window").writ
 
 
 ```
-4. Show how many events are received for each country, display it in a slidingwindow (set windowDuration to 3 minutes and slideDuration to 1 minutes). 
-Show result at 1-minute interval. Use "kafka" source and "console" sink.
-Set outputMode to "complete".
+4. Show how many events are received for each country, display it in a
+   slidingwindow 
+   (set windowDuration to 3 minutes and slideDuration to 1 minutes). 
+   Show result at 1-minute interval. Use "kafka" source and "console" sink.
+   Set outputMode to "complete".
 ```
 
 ```
@@ -178,7 +216,16 @@ val df12=df11.select(col("timestamp"),col("data.*"))
 df12.printSchema()
 ```
 ```
-df12.groupBy(window(col("timestamp"),"3 minutes","1 minutes"),col("group.group_country")).count().orderBy("window").writeStream.queryName("df12").trigger(Trigger.ProcessingTime("60 seconds")).format("console").outputMode("complete").option("truncate", "false").start()
+df12.groupBy(window(col("timestamp"),"3 minutes","1 minutes"),col("group.group_country"))
+.count()
+.orderBy("window")
+.writeStream
+.queryName("df12")
+.trigger(Trigger.ProcessingTime("60 seconds"))
+.format("console")
+.outputMode("complete")
+.option("truncate", "false")
+.start()
 ```
 ![2](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/sliding_window.png)
 
@@ -235,7 +282,16 @@ import org.apache.spark.sql.streaming.Trigger
 ```
 ```
 val df7=df6.na.drop()
-df7.writeStream.trigger(Trigger.ProcessingTime("60 seconds")).format("kudu").option("kudu.master", "ip-172-31-89-172.ec2.internal").option("kudu.table", "impala::rsvp_db.rsvp_kudu_pan").option("kudu.operation", "upsert").option("path","/user/pan/DE_project/kudu").option("checkpointLocation","/user/pan/DE_project/kudu/checkpoint").outputMode("append").start
+df7.writeStream
+.trigger(Trigger.ProcessingTime("60 seconds"))
+.format("kudu")
+.option("kudu.master", "ip-172-31-89-172.ec2.internal,ip-172-31-86-198.ec2.internal,ip-172-31-93-228.ec2.internal")
+.option("kudu.table", "impala::rsvp_db.rsvp_kudu_pan")
+.option("kudu.operation", "upsert")
+.option("path","/user/pan/DE_project/kudu")
+.option("checkpointLocation","/user/pan/DE_project/kudu/checkpoint")
+.outputMode("append")
+.start
 ```
 Use impala query to verify that the streaming job is inserting data correctly.
 ```
