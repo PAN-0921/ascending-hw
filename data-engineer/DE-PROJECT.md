@@ -33,7 +33,8 @@ kafka-topics --bootstrap-server ip-172-31-94-165.ec2.internal:9092 --describe --
 ## Create Kafka Data Source
 
 ```
-Use meetup RSVP event as the Kafkadata source. Ingest meetup_rsvp event to the Kafka topic, use kafka-console-consumer to verify it.
+Use meetup RSVP event as the Kafkadata source. 
+Ingest meetup_rsvp event to the Kafka topic, use kafka-console-consumer to verify it.
 Meetup provides a streaming API for retrieving the RSVP event.
 https://stream.meetup.com/2/rsvps
 ```
