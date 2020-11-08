@@ -1,6 +1,6 @@
 # Spark Structured API Lab
 
-##Data Set 
+## Data Set 
 ```
 - retail_db: 6 tables
 - categories
@@ -11,7 +11,7 @@
 - products
 ```
 
-##Question 1
+## Question 1
 ```
 1. List all databases in hive;
 2. List all tables in retail_db;
@@ -25,7 +25,7 @@ spark.catalog.listColumns("retail_db.orders").show
 ```
 
 
-##Question 2
+## Question 2
 ```
 1. Find out customers who have placed >= 8 orders
 2. Use customers table and orders table
@@ -36,7 +36,7 @@ spark.catalog.listColumns("retail_db.orders").show
 
 
 
-##Solution 2 - DataFrame API
+## Solution 2 - DataFrame API
 ```
 val customers_df=spark.read.table("retail_db.customers")
 customers_df.printSchema
@@ -67,7 +67,7 @@ val output_folder="/user/pan/spark-handson/q2"
 df6.write.format("json").mode("overwrite").save(output_folder)
 ```
 
-##Solution 2 - Spark SQL
+## Solution 2 - Spark SQL
 ```
 val q2="""
 SELECT customer_id, customer_fname, count(*) as order_count
@@ -89,7 +89,7 @@ df7.write.format("json").mode("overwrite").save("/user/pan/spark-handson/q2")
 
 
 
-##Question 3
+## Question 3
 ```
 1. Use products table, find out max product_price in each product_category
 2. Order the results by max price descending order
@@ -101,7 +101,7 @@ df7.write.format("json").mode("overwrite").save("/user/pan/spark-handson/q2")
 ```
 
 
-##Solution 3 - DataFrame API
+## Solution 3 - DataFrame API
 ```
 import org.apache.spark.sql.functions._
 ```
@@ -117,7 +117,7 @@ val products_df=spark.read.table("retail_db.products")
 ```
 
 
-###1,2,3,4
+### 1,2,3,4
 ```
 val df1=products_df.groupBy("product_category_id").agg(max("product_price").as("max"))
 df1.show
@@ -135,7 +135,7 @@ df3.write.format("csv").mode("overwrite").option("compression","gzip").save("/us
 
 
 
-###5 - Method 1
+### 5 - Method 1
 ```
 spark.conf.set("spark.sql.shuffle.partitions","1")
 ```
@@ -144,7 +144,7 @@ val df4=df2.select(concat(col("product_category_id"),lit("|"),col("max")).as("re
 df4.show
 df4.write.format("text").mode("append").option("compression","snappy").save("/user/pan/spark-handson/q31")
 ```
-###5 - Method 2
+### 5 - Method 2
 ```
 val df4=df2.select(concat(col("product_category_id"),lit("|"),col("max")).as("results"))
 df4.show
@@ -153,14 +153,14 @@ df4.coalesce(1).write.format("csv").mode("overwrite").option("compression","snap
 
 
 
-###6
+### 6
 ```
 df4.coalesce(1).write.format("csv").mode("overwrite").option("header",true)save("/user/pan/spark-handson/q32")
 ```
 
 
 
-###7
+### 7
 ```
 import org.apache.spark.sql.types._
 val schema=new StructType(Array(
@@ -184,7 +184,7 @@ verifyq32.show(false)
 
 
 
-##Question 4
+## Question 4
 ```
 1. Use orders table, find out orders in 2013-08 with order_status=COLSED. 
 2. Pay attention to column order_date, you may need to apply some date/time transformation function to it and create a new column.
@@ -196,8 +196,8 @@ verifyq32.show(false)
 
 
 
-##Solution 4 - DataFrame API
-###1 - Method 1
+## Solution 4 - DataFrame API
+### 1 - Method 1
 ```
 import org.apache.spark.sql.functions._
 val df1=orders_df.withColumn("date",substring(col("order_date"),0,7))
@@ -207,33 +207,33 @@ df2.show(truncate=false)
 val df3=df2.where("order_status=='CLOSED'")
 df3.show(truncate=false)
 ```
-###1 - Method 2
+### 1 - Method 2
 ```
 val df1=orders_df.filter("order_date like '2013-08%'")
 val df2=df1.filter("order_status='CLOSED'")
 ```
-###3
+### 3
 ```
 val df4=orders_df.withColumn("date",substring(col("order_date"),0,10))
 df4.show(truncate=false)
 val df5=df4.filter("date like '2013-08%'").groupBy("date").count().orderBy(asc("date"))
 df5.show(truncate=31)
 ```
-###4
+### 4
 ```
 df5.coalesce(1).write.format("parquet").mode("overwrite").save("/user/pan/spark-handson/q4")
 ```
-###5
+### 5
 ```
 val df6=spark.read.parquet("/user/pan/spark-handson/q4")
 df6.orderBy(asc("date")).show(31)
 ```
-###save as table
+### save as table
 ```
 df6.coalesce(1).write.format("parquet").mode("overwrite").saveAsTable("pan_db.q4")
 ```
 
-##Solution 4 - Spark SQL
+## Solution 4 - Spark SQL
 ```
 val df7=spark.sql("""
 select *, substring(order_date,0,7) as date
@@ -262,7 +262,7 @@ df8.show(31)
 
 
 
-##Question 5
+## Question 5
 ```
 1. Use products and order_items table, find top 10 products with highest revenue. 
 2. Output has 3 field, product_id, product_nameand total_revenue
@@ -273,7 +273,7 @@ df8.show(31)
 
 
 
-##Solution 5 - DataFrame API
+## Solution 5 - DataFrame API
 ```
 spark.conf.set("spark.sql.shuffle.partitions",2)
 ```
@@ -290,7 +290,7 @@ order_items_df.printSchema
 order_items_df.show(truncate=false)
 ```
 
-###1,2 - Method 1
+### 1,2 - Method 1
 ```
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.expressions.Window
@@ -306,7 +306,7 @@ join_df_sum.show(10,false)
 ```
 
 
-###1,2 - Method 2
+### 1,2 - Method 2
 ```
 val df1=order_items_df.groupBy("order_item_product_id").agg(sum("order_item_subtotal").as("revenue"))
 val df2=df1.orderBy(desc("revenue"))
@@ -316,18 +316,18 @@ val df4=df3.join(products_df, joinExpr)
 val df5=df4.select("product_id","product_name","revenue").sort(desc("revenue"))
 ```
 
-###3
+### 3
 ```
 df5.coalesce(1).write.format("csv").mode("overwrite").option("header",true).option("sep",":").save("/user/pan/spark-handson/q5")
 ```
 
-###4
+### 4
 ```
 val df6=spark.read.format("csv").option("header",true).option("sep",":").option("inferSchema",true).load("/user/pan/spark-handson/q5")
 df6.show(false)
 ```
 
-##Solution 5 - Spark SQL
+## Solution 5 - Spark SQL
 ```
 val df7=spark.sql("""
 select p.product_id, p.product_name, sum(o.order_item_subtotal) as revenue
