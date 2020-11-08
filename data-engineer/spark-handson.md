@@ -1,15 +1,15 @@
 # Spark Structured API Lab
 
 ## Data Set 
-```
--retail_db: 6 tables
--categories
--customers
--departments
--order_items
--orders
--products
-```
+
+- retail_db: 6 tables
+- categories
+- customers
+- departments
+- order_items
+- orders
+- products
+
 
 ## Question 1
 ```
