@@ -192,8 +192,8 @@ df8.groupBy(window(col("timestamp"),"2 minutes"))
 
 ```
 4. Show how many events are received for each country, display it in a
-   slidingwindow 
-   (set windowDuration to 3 minutes and slideDuration to 1 minutes). 
+   sliding window 
+   (set window Duration to 3 minutes and slide Duration to 1 minutes). 
    Show result at 1-minute interval. Use "kafka" source and "console" sink.
    Set outputMode to "complete".
 ```
@@ -216,10 +216,12 @@ val df12=df11.select(col("timestamp"),col("data.*"))
 df12.printSchema()
 ```
 ```
-df12.groupBy(window(col("timestamp"),"3 minutes","1 minutes"),col("group.group_country"))
+val df13=df12.groupBy(window(col("timestamp"),"3 minutes","1 minutes"),col("group.group_country"))
 .count()
 .orderBy("window")
-.writeStream
+```
+```
+df13.writeStream
 .queryName("df12")
 .trigger(Trigger.ProcessingTime("60 seconds"))
 .format("console")
@@ -268,7 +270,7 @@ create table if not exists rsvp_db.rsvp_kudu_pan
 	event_name      string,
 	event_time      bigint
 )
-PARTITION BY HASH PARTITIONS 2
+PARTITION BY HASH (rsvp_id) PARTITIONS 2
 STORED AS KUDU;
 ```
 ```
@@ -318,5 +320,7 @@ val df6_withEventTime=df6_seconds.withColumn("event_time",col("time_seconds").ca
 df6_withEventTime.printSchema
 df6_withEventTime.select("event_time").writeStream.format("console").start
 ```
+
+
 
 

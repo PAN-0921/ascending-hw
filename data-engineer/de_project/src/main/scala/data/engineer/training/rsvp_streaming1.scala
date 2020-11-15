@@ -38,6 +38,7 @@ object rsvp_streaming1 {
     df1.isStreaming
     val df2=df1.select("value")
     val df3=df2.withColumn("value",col("value").cast(StringType))
+
     df3.printSchema()
     df3.writeStream.trigger(Trigger.ProcessingTime("60 seconds"))
       .format("json")
@@ -46,7 +47,6 @@ object rsvp_streaming1 {
       .outputMode("append")
       .start
       .awaitTermination()
-
 
 
   }

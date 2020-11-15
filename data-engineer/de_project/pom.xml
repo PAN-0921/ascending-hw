@@ -40,6 +40,7 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
     <!-- scala -->
     <dependency>
       <groupId>org.scala-lang</groupId>
@@ -47,6 +48,7 @@
       <version>${scala.version}</version>
       <!--<scope>provided</scope>-->
     </dependency>
+
     <!-- Spark -->
     <dependency>
       <groupId>org.apache.spark</groupId>
@@ -64,6 +66,7 @@
         </exclusion>
       </exclusions>
     </dependency>
+
     <dependency>
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-sql_${scala.tools.version}</artifactId>
@@ -114,6 +117,7 @@
         </exclusion>
       </exclusions>
     </dependency>
+
     <!-- Kafka -->
     <dependency>
       <groupId>org.apache.kafka</groupId>
@@ -131,6 +135,7 @@
         </exclusion>
       </exclusions>
     </dependency>
+
     <dependency>
       <groupId>org.apache.kafka</groupId>
       <artifactId>kafka-clients</artifactId>
@@ -146,6 +151,7 @@
         </exclusion>
       </exclusions>
     </dependency>
+
     <!-- https://mvnrepository.com/artifact/com.typesafe/config -->
     <dependency>
       <groupId>com.typesafe</groupId>
@@ -157,6 +163,7 @@
       <artifactId>httpclient</artifactId>
       <version>${httpcomponents.version}</version>
     </dependency>
+
     <dependency>
       <groupId>org.apache.kudu</groupId>
       <artifactId>kudu-spark2_2.11</artifactId>
@@ -259,5 +266,4 @@
 </project>
         <!--
         https://dzone.com/articles/scala-in-java-maven-project
-        comments
         -->
