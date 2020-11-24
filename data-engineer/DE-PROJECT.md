@@ -313,7 +313,6 @@ df7.writeStream
 .option("kudu.master", "ip-172-31-89-172.ec2.internal,ip-172-31-86-198.ec2.internal,ip-172-31-93-228.ec2.internal")
 .option("kudu.table", "impala::rsvp_db.rsvp_kudu_pan")
 .option("kudu.operation", "upsert")
-.option("path","/user/pan/DE_project/kudu")
 .option("checkpointLocation","/user/pan/DE_project/kudu/checkpoint")
 .outputMode("append")
 .start
