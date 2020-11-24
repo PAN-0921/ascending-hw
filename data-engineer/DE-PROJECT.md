@@ -87,7 +87,13 @@ val df2=df1.select("value")
 ```
 ```
 import org.apache.spark.sql.types._
+```
+```
 val df3=df2.withColumn("value",col("value").cast(StringType))
+or
+val df3=df2.select(col("value").cast("string"))
+```
+```
 df3.printSchema()
 df3.writeStream.format("console").start()
 ```
@@ -109,7 +115,7 @@ df3.writeStream
    Set outputMode to "append".
 ```
 
-Create test.json with one record of https://stream.meetup.com/2/rsvps
+Create test.json with one record of https://stream.meetup.com/2/rsvps and get schema from it
 ```
 val test=spark.read
 .format("json")
@@ -155,6 +161,22 @@ df6.writeStream.format("console").start
 
 [from_json example2](https://sparkbyexamples.com/spark/spark-streaming-with-kafka/)
 
+Verify parquet files
+Methond 1 
+```
+ssh pan@54.86.193.122 
+ssh pan@ip-172-31-92-98.ec2.internal
+hdfs dfs -get /user/pan/DE_project/parquet2/*.parquet ~
+ls
+parquet-tools
+parquet-tools schema part-00000-946d0a83-adaf-4e5f-a9b5-9a24bc1a511e-c000.snappy.parquet
+parquet-tools cat part-00000-946d0a83-adaf-4e5f-a9b5-9a24bc1a511e-c000.snappy.parquet
+```
+Methond 2
+```
+val verify=spark.read.parquet("/user/pan/DE_project/parquet2/*.parquet")
+verify.show(5)
+```
 
 
 ```
@@ -283,7 +305,7 @@ spark-shell
 import org.apache.spark.sql.streaming.Trigger
 ```
 ```
-val df7=df6.na.drop()
+val df7=df6.na.drop(subset=rsvp_id)
 df7.writeStream
 .trigger(Trigger.ProcessingTime("60 seconds"))
 .format("kudu")
