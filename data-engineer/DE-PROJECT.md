@@ -162,6 +162,7 @@ df6.writeStream.format("console").start
 [from_json example2](https://sparkbyexamples.com/spark/spark-streaming-with-kafka/)
 
 Verify parquet files
+
 Methond 1 
 ```
 ssh pan@54.86.193.122 
