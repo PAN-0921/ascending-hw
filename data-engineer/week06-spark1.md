@@ -113,14 +113,35 @@ employee_df.count()
 import org.apache.spark.sql.functions.{avg}
 employee_df.groupBy("DEPT_NAME").avg("SAL").show()
 ```
-
+![2](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/Q2.png)
+```
+import org.apache.spark.sql.functions._
+val Q2_1 = emp_with_header_df.groupBy("DEPTNO").agg(avg("SAL"),count("*").as("number"))
+Q2_1.show
+```
+![199](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/199.png)
+```
+val join_expr=dept_with_header_df.col("DEPT_NO")===emp_with_header_df.col("DEPTNO")
+val join_df=emp_with_header_df.join(dept_with_header_df,join_expr)
+join_df.show(false)
+val Q2_2=join_df.groupBy("DEPTNO","DEPT_NAME").agg(avg("SAL"),count("*").as("number"))
+Q2_2.show
+```
+![198](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/198.png)
 
 Method 2 - Spark SQL
 ```
 spark.sql("select count(*) from employee_table").show(false)
 spark.sql("select DEPT_NAME,avg(SAL) as avg_salary from employee_table group by DEPT_NAME").show(false)
 ```
-![2](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/Q2.png)
+```
+val Q2_3=spark.sql("""
+select DEPTNO, DEPT_NAME, avg(SAL), count(*) as number
+from employee_table
+group by DEPTNO, DEPT_NAME
+""")
+Q2_3.show
+```
 
 
 
