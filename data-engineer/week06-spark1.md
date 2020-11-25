@@ -54,15 +54,15 @@ val path2="/home/pan/Documents/tutorial/data/emp-with-header.txt"
 val emp_with_header_df=spark.read.option("header","true").option("mode","FAILFAST").schema(emp_schema).csv(path2)
 emp_with_header_df.show(truncate=false)
 ```
--Spark read text file into DataFrame by inferschema
+- Spark read text file into DataFrame by inferschema
 ```
-val path1="/home/pan/Documents/tutorial/data/dept-with-header.txt"
+val path1="/data/spark/employee/dept-with-header.txt"
 val dept_with_header_df=spark.read.format("csv").option("header","true").option("inferSchema",true).option("sep",",").option("mode","FAILFAST").load(path1)
 dept_with_header_df.show(truncate=false)
 dept_with_header_df.printSchema()
 
-val path2="/home/pan/Documents/tutorial/data/emp-with-header.txt"
-val emp_with_header_df==spark.read.format("csv").option("header","true").option("inferSchema",true).option("sep",",").option("mode","FAILFAST").load(path2)
+val path2="/data/spark/employee/emp-with-header.txt"
+val emp_with_header_df=spark.read.format("csv").option("header","true").option("inferSchema",true).option("sep",",").option("mode","FAILFAST").load(path2)
 emp_with_header_df.show(truncate=false)
 emp_with_header_df.printSchema()
 ```
