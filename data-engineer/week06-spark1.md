@@ -253,40 +253,25 @@ val employee2_df=employee_df.withColumnRenamed("SAL","MGR_SAL").withColumnRename
 val employee_selfdf=employee_df.as("emp1").join(employee2_df.as("emp2"),col("emp1.MGR") === col("emp2.EMPNO"),"inner").drop(col("emp2.EMPNO"))
 employee_selfdf.select("NAME","SAL").where(col("MGR_SAL")<col("SAL")).show
 ```
-
-
-
-
-
-
-
-
-
-
-???
+or
 ```
-val Q5_1=employee_df.select(col("EMPNO"),col("SAL").as("MGR_SAL"))
-val join_expr=(Q5_1.col("EMPNO")===employee_df.col("MGR")) && (col("MGR_SAL")<col("SAL"))
-val Q5_2=employee_df.join(Q5_1, join_expr)
-val Q5_3=Q5_2.select("NAME","SAL")
+val Q5_1=emp_with_header_df.select(col("EMPNO").as("emp_no"),col("SAL").as("MGR_SAL"))
+Q5_1.show(false)
+val join_expr=(Q5_1.col("emp_no")===emp_with_header_df.col("MGR"))
+val Q5_2=emp_with_header_df.join(Q5_1, join_expr)
+Q5_2.show(false)
+val Q5_3=Q5_2.where(col("SAL")>col("MGR_SAL"))
 Q5_3.show(false)
+val Q5_4=Q5_3.select("NAME","SAL")
+Q5_4.show(false)
 ```
-
-val df_q5_1 = employee_df.selectExpr("EMPNO as emp_no", "SAL as salary")
-val join_expr_5 = (employee_df.col("MGR") === df_q5_1.col("emp_no")) && (employee_df.col("SAL") > df_q5_1.col("salary"))
-val df_q5_2 = employee_df.join(df_q5_1, join_expr_5).select("NAME", "SAL")
+or
+```
+val df_q5_1=emp_with_header_df.select(col("EMPNO").as("emp_no"),col("SAL").as("salary"))
+val join_expr_5 = (emp_with_header_df.col("MGR") === df_q5_1.col("emp_no")) && (emp_with_header_df.col("SAL") > df_q5_1.col("salary"))
+val df_q5_2 = emp_with_header_df.join(df_q5_1, join_expr_5).select("NAME", "SAL")
 df_q5_2.show
-
-
-
-
-
-
-
-
-
-
-
+```
 
 Method 2 - Spark SQL
 ```
@@ -382,8 +367,7 @@ from employee_table
 where SAL > AVG_SAL
 """).show(false)
 ```
-
-???
+or
 ```
 emp_with_header_df.createOrReplaceTempView("emp_table")
 val Q6=spark.sql("""
@@ -394,8 +378,6 @@ on e1.sal>e2.avg_sal
 """)
 Q6.show(false)
 ```
-
-
 ![6](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/Q6.png)
 
 
@@ -417,11 +399,8 @@ Method 1 - Spark DataFrame API
 employee_df.filter(col("NAME").startsWith("J")).select("NAME","DEPT_NAME").show(false)
 ```
 or
-
-
-???
 ```
-val Q7_1=emp_with_header_df.where("NAME LIKE "J%"")
+val Q7_1=emp_with_header_df.where("NAME LIKE 'J%'")
 val join_expr = (Q7_1.col("DEPTNO")===dept_with_header_df.col("DEPT_NO"))
 val Q7_2=Q7_1.join(dept_with_header_df,join_expr).select("NAME","DEPT_NAME")
 Q7_2.show
@@ -437,9 +416,7 @@ from employee_table
 where NAME LIKE "J%"
 """).show(false)
 ```
-
-
-???
+or
 ```
 emp_with_header_df.createOrReplaceTempView("emp_table")
 dept_with_header_df.createOrReplaceTempView("dept_table")
@@ -452,9 +429,6 @@ where e.name like "J%"
 """)
 Q7.show
 ```
-
-
-
 ![7](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/Q7.png)
 
 
@@ -472,9 +446,7 @@ Method 1 - Spark DataFrame API
 ```
 employee_df.orderBy(col("SAL").desc).select("NAME","SAL").take(3).foreach(println)
 ```
-
-
-????
+or
 ```
 val Q8=emp_with_header_df.orderBy(desc("SAL")).select("NAME","SAL").limit(3)
 Q8.show
@@ -505,14 +477,11 @@ Method 1 - Spark DataFrame API
 ```
 employee_df.withColumn("totalincome",col("SAL")+col("COMM")).sort(desc("totalincome")).select("NAME","totalincome").show(false)
 ```
-
-???
+or
 ```
-val Q9=emp_with_header_df.select("NAME",("SAL"+"COMM").as("total_income")).ordeyBy(desc("total_income"))
+val Q9=emp_with_header_df.select(col("NAME"),(col("SAL")+col("COMM")).as("total_income")).sort(desc("total_income"))
 Q9.show
 ```
-
-
 
 Method 2 - Spark SQL
 ```
