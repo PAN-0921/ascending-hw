@@ -293,7 +293,7 @@ create table if not exists rsvp_db.rsvp_kudu_pan
 	event_name      string,
 	event_time      bigint
 )
-PARTITION BY HASH (rsvp_id) PARTITIONS 2
+PARTITION BY HASH PARTITIONS 2
 STORED AS KUDU;
 ```
 ```
