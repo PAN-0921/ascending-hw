@@ -24,8 +24,9 @@ hdfs dfs -ls #list files in HDFS
 
 
 Copy files from Linux File system to HDFS
-
-
+```bash
+ls #list files in Linux
+```
 ![2](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/2.jpg)
 
 ```bash
