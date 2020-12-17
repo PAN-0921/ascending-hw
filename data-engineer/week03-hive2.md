@@ -70,6 +70,17 @@ ORDER BY yr;
 ![17](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_17.png)
 
 
+Method 3
+```sql
+select concat("20",x.yr) as yr,count(*) as number
+from 
+(
+SELECT *, substr(closing_date,-2,2) as yr
+from bank_db.banklist
+) x
+GROUP BY yr
+ORDER BY yr desc
+```
 
 
 
