@@ -37,8 +37,8 @@ stored as textfile;
 location '/date/chicago_2019_2020/'
 tblproperties ("skip.header.line.count"="1");
 ```
-### After checking table schema, we can find that all data types are string. 
-### The reason is that OpenCSVSerde is used.
+##### After checking table schema, we can find that all data types are string. 
+##### The reason is that OpenCSVSerde is used.
 
 
 
