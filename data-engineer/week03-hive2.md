@@ -466,4 +466,16 @@ on p.product_id = r.order_item_product_id
 order by r.revenue desc
 limit 10;
 ```
+```sql
+select p.product_id, p.product_name, sum(oi.order_item_subtotal) as revenue
+from order_items as oi
+join orders as o
+on oi.order_item_order_id=o.order_id
+join products as p
+on p.product_id=oi.order_item_product_id
+where o.order_status <> 'CANCELED' and o.order_status <> 'SUSPECTED_FRAUD'
+group by p.product_id, p.product_name
+order by revenue desc
+limit 10
+```
 ![9](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/r1.png)
