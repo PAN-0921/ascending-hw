@@ -291,7 +291,13 @@ where rk <= 3
 
 [window function](https://www.postgresqltutorial.com/postgresql-window-function/)
 
-
+```sql
+SELECT district, primary_type, count(*) as number
+FROM pan_db.crime_parquet_16_20
+GROUP BY district, primary_type
+ORDER BY number DESC
+LIMIT 10;
+```
 
 
 
