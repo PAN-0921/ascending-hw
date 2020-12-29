@@ -389,6 +389,18 @@ join customers
 on customers.customer_id=orders.order_customer_id
 ;
 ```
+```sql
+select x.order_id as order_id, x.number as number, o.order_customer_id as customer_id
+from
+(
+SELECT order_item_order_id as order_id, sum(order_item_quantity) as number
+from retail_db.order_items
+GROUP BY order_item_order_id
+having sum(order_item_quantity)=5
+) x
+join retail_db.orders o
+on x.order_id=o.order_id
+```
 ![5](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/week03_5.png)
 
 
