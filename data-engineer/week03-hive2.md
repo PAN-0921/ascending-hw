@@ -128,7 +128,7 @@ create table if not exists pan_db.crime_parquet_16_20 (
    loc            string
 )
 partitioned by (yr int)
-stored as parquet；
+stored as parquet;
 ```
 - Import 2016 to 2020 data into the partitioned table from table chicago.crime_parquet
 
