@@ -155,7 +155,7 @@ df4.coalesce(1).write.format("csv").mode("overwrite").option("compression","snap
 
 ### 6
 ```
-df4.coalesce(1).write.format("csv").mode("overwrite").option("header",true)save("/user/pan/spark-handson/q32")
+df4.coalesce(1).write.format("csv").mode("overwrite").option("header",true).save("/user/pan/spark-handson/q32")
 ```
 
 
@@ -200,7 +200,7 @@ verifyq32.show(false)
 ### 1 - Method 1
 ```
 import org.apache.spark.sql.functions._
-val df1=orders_df.withColumn("date",substring(col("order_date"),0,7))
+val df1=orders_df.withColumn("date",substring(col("order_date"),1,7))
 df1.show(truncate=false)
 val df2=df1.where("date='2013-08'")
 df2.show(truncate=false)
@@ -214,7 +214,7 @@ val df2=df1.filter("order_status='CLOSED'")
 ```
 ### 3
 ```
-val df4=orders_df.withColumn("date",substring(col("order_date"),0,10))
+val df4=orders_df.withColumn("date",substring(col("order_date"),1,10))
 df4.show(truncate=false)
 val df5=df4.filter("date like '2013-08%'").groupBy("date").count().orderBy(asc("date"))
 df5.show(truncate=31)
