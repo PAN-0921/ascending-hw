@@ -104,7 +104,7 @@ val df1 = df.filter("yr>=2016").filter("yr<=2020")
 val df2 = df1.groupBy("primary_type","yr").agg(count("id").as("number"))
 val w1 = Window.partitionBy("yr").orderBy(desc("number"))
 val df3 = df2.withColumn("rk",rank().over(w1))
-val df4=df3.filter("rk<=10").orderBy("yr","rk")
+val df4 = df3.filter("rk<=10").orderBy("yr","rk")
 df4.show
 ```
 
