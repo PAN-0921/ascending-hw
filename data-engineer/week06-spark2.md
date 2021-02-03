@@ -119,6 +119,19 @@ crime_parquet_loc_df.show
 ```
 ![4](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/W6_Q2_2.png)
 
+or
+```
+val df = spark.read.table("chicago.crime_parquet")
+val df1 = df.filter(expr("yr<=2020") && expr("yr>=2016"))
+val df2 = df1.groupBy("district").agg(count("id").as("number"))
+val w1 = Window.orderBy(desc("number"))
+val df3 = df2.withColumn("rk",rank().over(w1))
+val df4 = df3.filter("rk <= 10")
+df4.show
+```
+
+
+
 
 - Are there certain high crime rate locations for certain crime types? (use two columns to group by)
 ```
