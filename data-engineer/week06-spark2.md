@@ -94,6 +94,20 @@ val crime_parquet_union_df=crime_parquet_16_df.union(crime_parquet_17_df).union(
 crime_parquet_union_df.show(false)
 ```
 ![3](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/W6_Q2_1.png)
+or
+```
+import org.apache.spark.sql.expressions.Window
+val df = spark.read.table("chicago.crime_parquet")
+val df1 = df.filter("yr>=2016").filter("yr<=2020")
+val df2 = df1.groupBy("primary_type","yr").agg(count("id").as("number"))
+val w1 = Window.partitionBy("yr").orderBy(desc("number"))
+val df3 = df2.withColumn("rk",rank().over(w1))
+val df4=df3.filter("rk<=10").orderBy("yr","rk")
+df4.show
+```
+
+
+
 
 
 - Which locations are most likely for a crime to happen?  List top 10 locations.
