@@ -94,6 +94,8 @@ val crime_parquet_union_df=crime_parquet_16_df.union(crime_parquet_17_df).union(
 crime_parquet_union_df.show(false)
 ```
 ![3](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/W6_Q2_1.png)
+
+
 or
 ```
 import org.apache.spark.sql.expressions.Window
