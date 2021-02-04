@@ -83,6 +83,7 @@ location '/user/pan/category'
 
 select * from ying_db.category limit 5;
 ```
+##### location 'directory'
 
 
 ## Create an external table that stored as textfile by using the dataset
