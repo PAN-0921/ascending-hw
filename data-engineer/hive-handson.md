@@ -86,6 +86,91 @@ select * from ying_db.category limit 5;
 ##### location 'directory'
 
 
+## Create a table with an additional column(year), stored as parquet
+## Import data from sample_07 and sample_08
+## Examine the data
+```
+create table ying_db.sample_all
+(
+code string,
+description string,
+total_emp int,
+salary int,
+yr int
+)
+stored as parquet;
+
+desc formatted ying_db.sample_all;
+```
+```
+insert into table ying_db.sample_all
+select *,2007 from default.sample_07;
+
+insert into table ying_db.sample_all
+select *,2008 from default.sample_08;
+```
+```
+select count(*) from default.sample_07;
+select count(*) from default.sample_08;
+select count(*) from ying_db.sample_all;
+```
+
+
+
+## Create a partitioned table, partitioned by year, stored as parquet
+## Import data from sample_07 and sample_08
+## Examine the data
+## add/drop partition (yr=2009)
+```
+create table ying_db.sample_partitioned
+(
+code string,
+description string,
+total_emp int,
+salary int
+)
+partitioned by (yr int)
+stored as parquet;
+
+desc formatted ying_db.sample_partitioned;
+```
+```
+insert into table ying_db.sample_partitioned partition(yr=2007)
+select * from default.sample_07;
+
+insert into table ying_db.sample_partitioned partition(yr=2008)
+select * from default.sample_08;
+```
+```
+select count(*) from ying_db.sample_partitioned;
+show partitions ying_db.sample_partitioned;
+```
+```
+alter table ying_db.sample_partitioned 
+add partition (yr=2009);
+alter table ying_db.sample_partitioned 
+drop partition (yr=2009);
+```
+
+
+## Dynamic partition
+```
+set hive.exec.dynamic.partition=true;
+set hive.exec.dynamic.partition.mode=nonstrict;
+
+truncate table ying_db.sample_partitioned;
+show show partitions ying_db.sample_partitioned;
+
+insert into table ying_db.sample_partitioned partition(yr)
+select * from sample_all;
+```
+
+
+
+
+
+
+
 ## Create an external table that stored as textfile by using the dataset
 ```
 CREATE EXTERNAL TABLE IF NOT EXISTS ying_db.crime_19_20(
