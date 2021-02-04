@@ -1,6 +1,71 @@
 # Hive Hands On
+## Use beeline command tool to access HiveServer2
+```
+ssh pan@54.86.193.122
+ssh pan@ip-172-31-92-98.ec2.internal
+beeline
+!connect 'jdbc:hive2://ip-172-31-92-98.ec2.internal:10000'
+```
 
-## Create an external table using the dataset
+## Create a table stored as avro
+```
+create table if not exists ying_db.demo1
+(
+col1 string,
+col2 int,
+col3 bigint 
+)
+stored as avro;
+
+insert into table ying_db.demo1
+values ("a", 1, 10), ("b", 2, 9);
+```
+
+## Create a table stored as textfile
+```
+create table if not exists ying_db.demo2
+(
+col1 string,
+col2 int,
+col3 float
+)
+row format delimited
+fields terminated by ","
+lines terminated by "\n"
+stored as textfile;
+
+insert into table ying_db.demo2
+values ('yingying', 1, 1.0), ('yvonne', 2, 2.0);
+```
+
+## Create a managed table
+##### copy the parquet file from one directory to another directory within the HDFS 
+```
+ssh pan@54.86.193.122
+ssh pan@ip-172-31-92-98.ec2.internal
+hdfs dfs -ls /user/roger/retail_db2/parquet/orders
+hdfs dfs -cp /user/roger/retail_db2/parquet/orders/*.parquet /user/pan
+hdfs dfs -ls
+```
+##### Create a managed table and load data using the parquet file
+```
+create table if not exists ying_db.orders
+(
+order_id int,
+order_date bigint,
+order_custome_id int,
+order_status string
+)
+stored as parquet;
+
+load data inpath"/user/pan/*.parquet" into table ying_db.orders;
+
+select * from ying_db.orders limit 5;
+```
+
+
+
+## Create an external table that stored as textfile by using the dataset
 ```
 CREATE EXTERNAL TABLE IF NOT EXISTS ying_db.crime_19_20(
 id bigint,
