@@ -137,6 +137,13 @@ mv part-m-00000 order_items.txt
 hdfs dfs -get /user/pan/retail_db/avro/part-m-00000.avro
 mv part-m-00000.avro order_items.avro
 ```
+
+or
+```bash
+hdfs dfs -get /user/pan/retail_db/avro/part-m-00000.avro order_items.avro
+```
+
+
 ![18](https://github.com/PAN-0921/ascending-hw/blob/master/pictures/18.jpg)
 
 
