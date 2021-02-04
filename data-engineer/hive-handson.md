@@ -63,6 +63,26 @@ load data inpath"/user/pan/*.parquet" into table ying_db.orders;
 select * from ying_db.orders limit 5;
 ```
 
+## Create an external table that stored as parquet
+```
+hdfs dfs -cp /user/roger/retail_db2/parquet/categories/*.parquet /user/pan/category
+hdfs dfs -get /user/roger/retail_db2/parquet/categories/*.parquet
+ls categories
+parquet-tools schema 0ce28b76-e091-4015-a7e9-412780ee25f0.parquet
+```
+```
+create external table if not exists ying_db.category
+(
+category_id int,
+category_department_id int,
+category_name string
+)
+stored as parquet
+location '/user/pan/category'
+;
+
+select * from ying_db.category limit 5;
+```
 
 
 ## Create an external table that stored as textfile by using the dataset
